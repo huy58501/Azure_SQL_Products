@@ -11,8 +11,9 @@ const helmet = require('helmet'); // Import helmet
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            defaultSrc: ["'self'"], // Allow content from the same origin
-            scriptSrc: ["'self'", "blob:", "https://tonyinthewild.azurewebsites.net"], // Adjust to allow specific external sources
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "blob:", "https://tonyinthewild.azurewebsites.net", "'unsafe-eval'"], // Add 'unsafe-eval' if required for certain scripts
+            objectSrc: ["'none'"], // Prevent loading of other objects, like Flash or Java applets
         },
     },
 }));
