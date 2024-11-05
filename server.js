@@ -6,18 +6,6 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 5001;
 
-const helmet = require('helmet'); // Import helmet
-
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "blob:", "https://tonyinthewild.azurewebsites.net", "'unsafe-eval'"], // Add 'unsafe-eval' if required for certain scripts
-            objectSrc: ["'none'"], // Prevent loading of other objects, like Flash or Java applets
-        },
-    },
-}));
-
 // Connect to the database
 connectDB();
 
