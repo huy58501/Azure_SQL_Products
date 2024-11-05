@@ -6,6 +6,17 @@ const path = require('path');
 const app = express();
 const port = 5001;
 
+const helmet = require('helmet'); // Import helmet
+
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'none'"],
+            scriptSrc: ["'self'", "blob:"], // Allow scripts from self and blob URLs
+        },
+    },
+}));
+
 // Connect to the database
 connectDB();
 
