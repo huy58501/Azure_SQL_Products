@@ -12,7 +12,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"], // Allow content from the same origin
-            scriptSrc: ["'self'", "blob:", "https://your-allowed-sources.com"], // Adjust to allow specific external sources
+            scriptSrc: ["'self'", "blob:", "https://tonyinthewild.azurewebsites.net"], // Adjust to allow specific external sources
         },
     },
 }));
@@ -28,13 +28,16 @@ app.use(express.static('public'));
 
 // Route to get all products
 app.get('/api/data', async (req, res) => {
+    console.log("Received a request for /api/data"); // Add this line
     try {
         const products = await getProducts();
         res.json(products);
     } catch (err) {
+        console.error('Error retrieving products:', err); // Log the error
         res.status(500).send('Error retrieving products');
     }
 });
+
 
 // Route for the root URL (optional)
 app.get('/', (req, res) => {
