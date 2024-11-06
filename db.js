@@ -1,4 +1,3 @@
-// db.js
 const sql = require('mssql');
 require('dotenv').config();
 
@@ -25,10 +24,24 @@ const connectDB = async () => {
     }
 };
 
-// Function to get products
-const getProducts = async () => {
+// Function to get products with category filter
+const getProducts = async (categories = []) => {
     try {
-        const result = await sql.query('SELECT * FROM Products');
+        let query = 'SELECT * FROM Products';
+        
+        if (categories.length > 0) {
+            // Assuming the category column in your database is called 'Category'
+            const placeholders = categories.map((_, index) => `@category${index}`).join(',');
+            query += ` WHERE Category IN (${placeholders})`;
+        }
+
+        // Prepare the query parameters for the categories
+        const request = new sql.Request();
+        categories.forEach((category, index) => {
+            request.input(`category${index}`, sql.VarChar, category);
+        });
+
+        const result = await request.query(query);
         return result.recordset;
     } catch (err) {
         console.error('Error fetching products:', err);
